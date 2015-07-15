@@ -15,6 +15,8 @@ Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
 
 Mandelbrot.calculate = function (mandelbrot) {
 
+    var tempArray = new Float64Array(mandelbrot.width * mandelbrot.height);
+
     var highest = 0;
     var lowest = 1000;
     var value;
@@ -29,22 +31,18 @@ Mandelbrot.calculate = function (mandelbrot) {
             if (value > 0 && value < lowest) {
                 lowest = value;
             }
-            mandelbrot.values[y*mandelbrot.width + x] = value;
+            tempArray[y * mandelbrot.width + x] = value;
         }
     }
 
-    var v1, v2;
     // scaling from 0 to 1
-    for (x = 0; x < mandelbrot.width; x += 1) {
-        for (y = 0; y < mandelbrot.height; y += 1) {
-            v1 = mandelbrot.values[y*mandelbrot.width + x];
-            v2 = Mandelbrot.scaleValue(v1, highest, lowest);
-            mandelbrot.values[y*mandelbrot.width + x] = v2;
-        }
+    var diff = highest - lowest;
+    var i;
+    for (i = 0; i < tempArray.length; i += 1) {
+        mandelbrot.values[i] = (tempArray[i] - lowest) / diff;
     }
 
     return mandelbrot;
-
 };
 
 Mandelbrot.calculateSmoothValue = function (mandelbrot, xPos, yPos) {
@@ -78,10 +76,6 @@ Mandelbrot.calculateSmoothValue = function (mandelbrot, xPos, yPos) {
         output = iteration + 1 - (Math.log( Math.log( Math.sqrt(x*x + y*y) ) ) / Math.log(2));
     }
     return output;
-};
-
-Mandelbrot.scaleValue = function (value, highest, lowest) {
-    return ( (value - lowest) / (highest - lowest) );
 };
 
 Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2) {
