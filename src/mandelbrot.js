@@ -32,7 +32,7 @@ Mandelbrot.calculate = function (mandelbrot) {
             if (value > 0 && value < lowest) {
                 lowest = value;
             }
-            mandelbrot.smoothValues[x*mandelbrot.height + y] = value;
+            mandelbrot.smoothValues[y*mandelbrot.width + x] = value;
         }
     }
 
@@ -40,9 +40,9 @@ Mandelbrot.calculate = function (mandelbrot) {
     // scaling from 0 to 1
     for (x = 0; x < mandelbrot.width; x += 1) {
         for (y = 0; y < mandelbrot.height; y += 1) {
-            v1 = mandelbrot.smoothValues[x*mandelbrot.height + y];
+            v1 = mandelbrot.smoothValues[y*mandelbrot.width + x];
             v2 = Mandelbrot.scaleValue(v1, highest, lowest);
-            mandelbrot.smoothValues[x*mandelbrot.height + y] = v2;
+            mandelbrot.smoothValues[y*mandelbrot.width + x] = v2;
         }
     }
 
@@ -50,7 +50,7 @@ Mandelbrot.calculate = function (mandelbrot) {
     var p, c;
     for (x = 0; x < mandelbrot.width; x += 1) {
         for (y = 0; y < mandelbrot.height; y += 1) {
-            p = x * mandelbrot.height + y;
+            p = y * mandelbrot.width + x;
             cp = p * 4;
             c = Colour.HSVtoRGB(mandelbrot.smoothValues[p], 0.5, 0.5);
             mandelbrot.canvas[cp]   = c.r;
@@ -69,10 +69,7 @@ Mandelbrot.calculateSmoothValue = function (mandelbrot, xPos, yPos) {
     var xCoord = mandelbrot.coords.x1 + (
         (mandelbrot.coords.x2 - mandelbrot.coords.x1) * (xPos / mandelbrot.width)
     );
-    // Subtracting from y1 because we have two coordinate systems
-    // Mandelbrot is plotted on usual x/y axes with y increasing upwards
-    // Pixels have origin at top left corner and y increases downwards
-    var yCoord = mandelbrot.coords.y1 - (
+    var yCoord = mandelbrot.coords.y1 + (
         (mandelbrot.coords.y2 - mandelbrot.coords.y1) * (yPos / mandelbrot.height)
     );
 
