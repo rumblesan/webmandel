@@ -19,27 +19,40 @@ var App = React.createClass({
                     this.props.config.startY1,
                     this.props.config.startX2,
                     this.props.config.startY2
-                )
+                ),
+                true
             )
         };
     },
     handleMouseSelect: function (x1Pos, y1Pos, x2Pos, y2Pos) {
-        console.log('mouse selection', x1Pos, y1Pos, x2Pos, y2Pos);
         this.setState({
             mandelbrot: Mandelbrot.zoom(
                 this.state.mandelbrot,
                 x1Pos,
                 y1Pos,
                 x2Pos,
-                y2Pos
+                y2Pos,
+                this.state.smoothing
             )
         });
     },
     toggleSmoothing: function () {
         if (this.state.smoothing) {
-            this.setState({ smoothing: false });
+            this.setState({
+                smoothing: false,
+                mandelbrot: Mandelbrot.calculate(
+                    this.state.mandelbrot,
+                    false
+                )
+            });
         } else {
-            this.setState({ smoothing: true });
+            this.setState({
+                smoothing: true,
+                mandelbrot: Mandelbrot.calculate(
+                    this.state.mandelbrot,
+                    true
+                )
+            });
         }
     },
     handleControls: function (control) {
@@ -65,7 +78,8 @@ var App = React.createClass({
                     this.props.config.startY1,
                     this.props.config.startX2,
                     this.props.config.startY2
-                )
+                ),
+                this.state.smoothing
             )
         });
     },

@@ -13,7 +13,7 @@ Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
     return mandelbrot;
 };
 
-Mandelbrot.calculate = function (mandelbrot) {
+Mandelbrot.calculate = function (mandelbrot, smoothing) {
 
     var tempArray = new Float64Array(mandelbrot.width * mandelbrot.height);
 
@@ -24,7 +24,7 @@ Mandelbrot.calculate = function (mandelbrot) {
     var x, y;
     for (x = 0; x < mandelbrot.width; x += 1) {
         for (y = 0; y < mandelbrot.height; y += 1) {
-            value = Mandelbrot.calculateSmoothValue(mandelbrot, x, y);
+            value = Mandelbrot.calculateValue(mandelbrot, x, y, smoothing);
             if (value > highest) {
                 highest = value;
             }
@@ -45,7 +45,7 @@ Mandelbrot.calculate = function (mandelbrot) {
     return mandelbrot;
 };
 
-Mandelbrot.calculateSmoothValue = function (mandelbrot, xPos, yPos) {
+Mandelbrot.calculateValue = function (mandelbrot, xPos, yPos, smoothing) {
 
     var xCoord = mandelbrot.coords.x1 + (
         (mandelbrot.coords.x2 - mandelbrot.coords.x1) * (xPos / mandelbrot.width)
@@ -53,7 +53,6 @@ Mandelbrot.calculateSmoothValue = function (mandelbrot, xPos, yPos) {
     var yCoord = mandelbrot.coords.y1 + (
         (mandelbrot.coords.y2 - mandelbrot.coords.y1) * (yPos / mandelbrot.height)
     );
-
 
     var x = 0;
     var y = 0;
@@ -73,12 +72,16 @@ Mandelbrot.calculateSmoothValue = function (mandelbrot, xPos, yPos) {
     if (iteration >= mandelbrot.repeats) {
         output = -1;
     } else {
-        output = iteration + 1 - (Math.log( Math.log( Math.sqrt(x*x + y*y) ) ) / Math.log(2));
+        if (smoothing) {
+            output = iteration + 1 - (Math.log( Math.log( Math.sqrt(x*x + y*y) ) ) / Math.log(2));
+        } else {
+            output = iteration;
+        }
     }
     return output;
 };
 
-Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2) {
+Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2, smoothing) {
     var x1Brot, y1Brot, x2Brot, y2Brot;
 
     var plotX = mandelbrot.coords.x2 - mandelbrot.coords.x1;
@@ -104,8 +107,7 @@ Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2) {
         (mandelbrot.coords.x2 - mandelbrot.coords.x1) /
         (mandelbrot.coords.y2 - mandelbrot.coords.y1)
     );
-    console.log(ratio, newRatio);
-    return Mandelbrot.calculate(mandelbrot);
+    return Mandelbrot.calculate(mandelbrot, smoothing);
 };
 
 module.exports = Mandelbrot;
