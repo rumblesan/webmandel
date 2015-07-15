@@ -2,18 +2,54 @@
 var React   = require('react');
 
 var Display = React.createClass({
+    getInitialState: function () {
+        return {
+            selecting: false,
+            selectionStart: { x: -1, y: -1 }
+        };
+    },
     componentDidUpdate: function () {
         this.drawCanvas();
     },
     componentDidMount: function () {
         this.drawCanvas();
     },
-    handleClick: function (event) {
+    handleMouseDown: function (event) {
+        event.preventDefault();
         var canvas = this.getDOMNode();
         var rect = canvas.getBoundingClientRect();
         var xPos = (event.clientX - rect.left) / canvas.width;
         var yPos = (event.clientY - rect.top) / canvas.height;
-        this.props.handleSelect(xPos, yPos);
+        this.setState({
+            selecting: true,
+            selectionStart: { x: xPos, y: yPos }
+        });
+    },
+    handleMouseUp: function (event) {
+        event.preventDefault();
+        if (!this.state.selecting) {
+            return;
+        }
+        var canvas = this.getDOMNode();
+        var rect = canvas.getBoundingClientRect();
+        var xPos = (event.clientX - rect.left) / canvas.width;
+        var yPos = (event.clientY - rect.top) / canvas.height;
+        this.setState({
+            selecting: false,
+            selectionStart: { x: -1, y: -1 }
+        });
+        this.props.handleSelect(
+            this.state.selectionStart.x,
+            this.state.selectionStart.y,
+            xPos,
+            yPos
+        );
+    },
+    handleMouseOut: function (event) {
+        this.setState({
+            selecting: false,
+            selectionStart: { x: -1, y: -1 }
+        });
     },
     drawCanvas: function () {
         var canvas = this.getDOMNode();
@@ -30,7 +66,9 @@ var Display = React.createClass({
     render: function () {
         return (
             <canvas
-                onClick={this.handleClick}
+                onMouseDown={this.handleMouseDown}
+                onMouseUp={this.handleMouseUp}
+                onMouseOut={this.handleMouseOut}
                 width={this.props.config.width}
                 height={this.props.config.height}
             ></canvas>

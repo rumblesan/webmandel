@@ -25,6 +25,15 @@ var App = React.createClass({
     },
     handleMouseSelect: function (x1Pos, y1Pos, x2Pos, y2Pos) {
         console.log('mouse selection', x1Pos, y1Pos, x2Pos, y2Pos);
+        this.setState({
+            mandelbrot: Mandelbrot.zoom(
+                this.state.mandelbrot,
+                x1Pos,
+                y1Pos,
+                x2Pos,
+                y2Pos
+            )
+        });
     },
     toggleSmoothing: function () {
         if (this.state.smoothing) {
