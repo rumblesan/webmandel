@@ -10,7 +10,7 @@ Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
         repeats: repeats,
         coords: { x1: x1, y1: y1, x2: x2, y2: y2 },
         canvas: new Uint8ClampedArray(width * height * 4),
-        smoothValues: new Float64Array(width * height)
+        values: new Float64Array(width * height)
     };
 
     return mandelbrot;
@@ -32,7 +32,7 @@ Mandelbrot.calculate = function (mandelbrot) {
             if (value > 0 && value < lowest) {
                 lowest = value;
             }
-            mandelbrot.smoothValues[y*mandelbrot.width + x] = value;
+            mandelbrot.values[y*mandelbrot.width + x] = value;
         }
     }
 
@@ -40,9 +40,9 @@ Mandelbrot.calculate = function (mandelbrot) {
     // scaling from 0 to 1
     for (x = 0; x < mandelbrot.width; x += 1) {
         for (y = 0; y < mandelbrot.height; y += 1) {
-            v1 = mandelbrot.smoothValues[y*mandelbrot.width + x];
+            v1 = mandelbrot.values[y*mandelbrot.width + x];
             v2 = Mandelbrot.scaleValue(v1, highest, lowest);
-            mandelbrot.smoothValues[y*mandelbrot.width + x] = v2;
+            mandelbrot.values[y*mandelbrot.width + x] = v2;
         }
     }
 
@@ -52,7 +52,7 @@ Mandelbrot.calculate = function (mandelbrot) {
         for (y = 0; y < mandelbrot.height; y += 1) {
             p = y * mandelbrot.width + x;
             cp = p * 4;
-            c = Colour.HSVtoRGB(mandelbrot.smoothValues[p], 0.5, 0.5);
+            c = Colour.HSVtoRGB(mandelbrot.values[p], 0.5, 0.5);
             mandelbrot.canvas[cp]   = c.r;
             mandelbrot.canvas[cp+1] = c.g;
             mandelbrot.canvas[cp+2] = c.b;
