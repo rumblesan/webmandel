@@ -101,5 +101,35 @@ Mandelbrot.scaleValue = function (value, highest, lowest) {
     return ( (value - lowest) / (highest - lowest) );
 };
 
+Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2) {
+    var x1Brot, y1Brot, x2Brot, y2Brot;
+
+    var plotX = mandelbrot.coords.x2 - mandelbrot.coords.x1;
+    var plotY = mandelbrot.coords.y2 - mandelbrot.coords.y1;
+
+    var ratio = plotX / plotY;
+    var xLength = Math.abs(x2 - x1);
+
+    x1Brot = mandelbrot.coords.x1 + (plotX * x1);
+    y1Brot = mandelbrot.coords.y1 + (plotY * y1);
+
+    x2Brot = x1Brot + (plotX * xLength);
+
+    y2Brot = y1Brot + (Math.abs(x2Brot - x1Brot) / ratio);
+
+    mandelbrot.coords = {
+        x1: x1Brot,
+        y1: y1Brot,
+        x2: x2Brot,
+        y2: y2Brot
+    };
+    var newRatio = (
+        (mandelbrot.coords.x2 - mandelbrot.coords.x1) /
+        (mandelbrot.coords.y2 - mandelbrot.coords.y1)
+    );
+    console.log(ratio, newRatio);
+    return Mandelbrot.calculate(mandelbrot);
+};
+
 module.exports = Mandelbrot;
 
