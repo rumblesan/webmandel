@@ -1,0 +1,34 @@
+{
+  "name": "webmandel",
+  "version": "0.1.0",
+  "description": "Web based mandelbrot explorer",
+  "author": "Guy John",
+  "license": "BSD-3",
+  "scripts": {
+    "browserify": "browserify src/main.jsx -o ./dist/app.js",
+    "style": "cat ./style/*.css > ./dist/style.css;",
+    "watch-js": "watchify src/main.jsx -o ./dist/app.js",
+    "watch-style": "nodemon --watch style/* --exec 'npm run style'",
+    "watch": "npm run watch-js & npm run watch-style",
+    "statics": "cp -r ./statics/* ./dist/; cp -r ./html/* ./dist/;",
+    "clean": "rm -rf ./dist/*",
+    "build": "npm run browserify && npm run statics && npm run style",
+    "test": "nodeunit tests"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.6",
+    "nodemon": "^1.3.7",
+    "nodeunit": "^0.9.1",
+    "reactify": "^1.1.1",
+    "watchify": "^3.2.2"
+  },
+  "dependencies": {
+    "domready": "^1.0.8",
+    "react": "^0.13.3"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  }
+}

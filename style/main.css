@@ -1,0 +1,29 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+#header {
+    width: 100%;
+    height: auto;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 2px;
+}
+#controls {
+    font-family: monospace; line-height: 1.4em;
+    font-size: 1.2em;
+}
+.control-item {
+    padding: 5px 10px;
+}
+canvas {
+    display: block;
+    margin: 10px auto;
+}
+
