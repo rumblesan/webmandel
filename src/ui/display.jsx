@@ -1,4 +1,6 @@
 
+var Colour = require('../colour');
+
 var React   = require('react');
 
 var Display = React.createClass({
@@ -57,9 +59,17 @@ var Display = React.createClass({
         var imageData = ctx.createImageData(
             canvas.width, canvas.height
         )
-        var i;
-        for (i = 0; i < imageData.data.length; i += 1) {
-            imageData.data[i] = this.props.mandelbrot.canvas[i];
+        var p, c, x, y;
+        for (x = 0; x < this.props.mandelbrot.width; x += 1) {
+            for (y = 0; y < this.props.mandelbrot.height; y += 1) {
+                p = y * this.props.mandelbrot.width + x;
+                cp = p * 4;
+                c = Colour.HSVtoRGB(this.props.mandelbrot.values[p], 0.5, 0.5);
+                imageData.data[cp]   = c.r;
+                imageData.data[cp+1] = c.g;
+                imageData.data[cp+2] = c.b;
+                imageData.data[cp+3] = 255;
+            }
         }
         ctx.putImageData(imageData, 0, 0);
     },

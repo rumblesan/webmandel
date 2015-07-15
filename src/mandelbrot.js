@@ -1,6 +1,4 @@
 
-var Colour = require('./colour');
-
 var Mandelbrot = {};
 
 Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
@@ -9,7 +7,6 @@ Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
         height: height,
         repeats: repeats,
         coords: { x1: x1, y1: y1, x2: x2, y2: y2 },
-        canvas: new Uint8ClampedArray(width * height * 4),
         values: new Float64Array(width * height)
     };
 
@@ -43,20 +40,6 @@ Mandelbrot.calculate = function (mandelbrot) {
             v1 = mandelbrot.values[y*mandelbrot.width + x];
             v2 = Mandelbrot.scaleValue(v1, highest, lowest);
             mandelbrot.values[y*mandelbrot.width + x] = v2;
-        }
-    }
-
-    // calculate colours
-    var p, c;
-    for (x = 0; x < mandelbrot.width; x += 1) {
-        for (y = 0; y < mandelbrot.height; y += 1) {
-            p = y * mandelbrot.width + x;
-            cp = p * 4;
-            c = Colour.HSVtoRGB(mandelbrot.values[p], 0.5, 0.5);
-            mandelbrot.canvas[cp]   = c.r;
-            mandelbrot.canvas[cp+1] = c.g;
-            mandelbrot.canvas[cp+2] = c.b;
-            mandelbrot.canvas[cp+3] = 255;
         }
     }
 
