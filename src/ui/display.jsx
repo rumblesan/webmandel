@@ -25,7 +25,6 @@ var Display = React.createClass({
         for (i = 0; i < imageData.data.length; i += 1) {
             imageData.data[i] = this.props.mandelbrot.canvas[i];
         }
-        console.log(imageData.data);
         ctx.putImageData(imageData, 0, 0);
     },
     render: function () {
