@@ -7,6 +7,7 @@ Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
         height: height,
         repeats: repeats,
         coords: { x1: x1, y1: y1, x2: x2, y2: y2 },
+        escapeValues: new Float64Array(width * height),
         values: new Float64Array(width * height)
     };
 
@@ -15,44 +16,39 @@ Mandelbrot.create = function (width, height, repeats, x1, y1, x2, y2) {
 
 Mandelbrot.calculate = function (mandelbrot, smoothing) {
 
-    var tempArray = new Float64Array(mandelbrot.width * mandelbrot.height);
-
     var highest = 0;
     var lowest = 1000;
     var value;
+    var xDistPerPixel  = (mandelbrot.coords.x2 - mandelbrot.coords.x1) / mandelbrot.width;
+    var yDistPerPixel = (mandelbrot.coords.y2 - mandelbrot.coords.y1) / mandelbrot.height;
 
-    var x, y;
+    var x, y, xCoord, yCoord;
     for (x = 0; x < mandelbrot.width; x += 1) {
         for (y = 0; y < mandelbrot.height; y += 1) {
-            value = Mandelbrot.calculateValue(mandelbrot, x, y, smoothing);
+            xCoord = mandelbrot.coords.x1 + (x * xDistPerPixel);
+            yCoord = mandelbrot.coords.y1 + (y * yDistPerPixel);
+            value = Mandelbrot.calculateValue(mandelbrot, xCoord, yCoord, smoothing);
             if (value > highest) {
                 highest = value;
             }
             if (value > 0 && value < lowest) {
                 lowest = value;
             }
-            tempArray[y * mandelbrot.width + x] = value;
+            mandelbrot.escapeValues[y * mandelbrot.width + x] = value;
         }
     }
 
     // scaling from 0 to 1
     var diff = highest - lowest;
     var i;
-    for (i = 0; i < tempArray.length; i += 1) {
-        mandelbrot.values[i] = (tempArray[i] - lowest) / diff;
+    for (i = 0; i < mandelbrot.escapeValues.length; i += 1) {
+        mandelbrot.values[i] = (mandelbrot.escapeValues[i] - lowest) / diff;
     }
 
     return mandelbrot;
 };
 
-Mandelbrot.calculateValue = function (mandelbrot, xPos, yPos, smoothing) {
-
-    var xCoord = mandelbrot.coords.x1 + (
-        (mandelbrot.coords.x2 - mandelbrot.coords.x1) * (xPos / mandelbrot.width)
-    );
-    var yCoord = mandelbrot.coords.y1 + (
-        (mandelbrot.coords.y2 - mandelbrot.coords.y1) * (yPos / mandelbrot.height)
-    );
+Mandelbrot.calculateValue = function (mandelbrot, xCoord, yCoord, smoothing) {
 
     var x = 0;
     var y = 0;
