@@ -58,7 +58,7 @@ var Display = React.createClass({
         var ctx = canvas.getContext('2d');
         var imageData = ctx.createImageData(
             canvas.width, canvas.height
-        )
+        );
         var p, c, x, y;
         for (x = 0; x < this.props.mandelbrot.width; x += 1) {
             for (y = 0; y < this.props.mandelbrot.height; y += 1) {

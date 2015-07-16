@@ -27,6 +27,9 @@ Colour.HSVtoRGB = function (h, s, v) {
     case 5:
         r = v; g = p; b = q;
         break;
+    default: // will only trigger for negative numbers
+        r = 0; g = 0; b = 0;
+        break;
     }
     return {
         r: Math.round(r * 255),
