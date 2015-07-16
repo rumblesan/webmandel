@@ -56,6 +56,7 @@ var Display = React.createClass({
     drawCanvas: function () {
         var canvas = this.getDOMNode();
         var ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
         var imageData = ctx.createImageData(
             canvas.width, canvas.height
         );
