@@ -13,7 +13,12 @@ var config = {
     startX1: -2.0,
     startY1: -1.0,
     startX2:  1.0,
-    startY2:  1.0
+    startY2:  1.0,
+    colours: {
+        hueOffset: 0.63,
+        saturation: 0.9,
+        value: 0.8
+    }
 };
 
 domready(function () {

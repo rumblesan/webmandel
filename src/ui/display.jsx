@@ -59,16 +59,28 @@ var Display = React.createClass({
         var imageData = ctx.createImageData(
             canvas.width, canvas.height
         );
-        var p, c, x, y;
+        var p, c, x, y, v;
         for (x = 0; x < this.props.mandelbrot.width; x += 1) {
             for (y = 0; y < this.props.mandelbrot.height; y += 1) {
                 p = y * this.props.mandelbrot.width + x;
                 cp = p * 4;
-                c = Colour.HSVtoRGB(this.props.mandelbrot.values[p], 0.5, 0.5);
-                imageData.data[cp]   = c.r;
-                imageData.data[cp+1] = c.g;
-                imageData.data[cp+2] = c.b;
-                imageData.data[cp+3] = 255;
+                v = this.props.mandelbrot.values[p];
+                if (v < 0) {
+                    imageData.data[cp]   = 0;
+                    imageData.data[cp+1] = 0;
+                    imageData.data[cp+2] = 0;
+                    imageData.data[cp+3] = 255;
+                } else {
+                    c = Colour.HSVtoRGB(
+                        v + this.props.config.colours.hueOffset,
+                        this.props.config.colours.saturation,
+                        this.props.config.colours.value
+                    );
+                    imageData.data[cp]   = c.r;
+                    imageData.data[cp+1] = c.g;
+                    imageData.data[cp+2] = c.b;
+                    imageData.data[cp+3] = 255;
+                }
             }
         }
         ctx.putImageData(imageData, 0, 0);
