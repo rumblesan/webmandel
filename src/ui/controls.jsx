@@ -22,6 +22,10 @@ var Controls = React.createClass({
                     Reset
                 </span>
 
+                <span className='control-item'>
+                    Click and drag to zoom
+                </span>
+
             </div>
         );
     }
