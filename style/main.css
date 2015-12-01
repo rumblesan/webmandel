@@ -13,7 +13,7 @@ html, body {
     height: auto;
     background-color: #000000;
     color: #ffffff;
-    padding: 2px;
+    position: absolute;
 }
 #controls {
     font-family: monospace; line-height: 1.4em;
@@ -24,6 +24,5 @@ html, body {
 }
 canvas {
     display: block;
-    margin: 10px auto;
 }
 

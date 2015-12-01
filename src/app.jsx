@@ -93,8 +93,8 @@ var App = React.createClass({
     },
     handleResize: function () {
         this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
         }, this.reset);
     },
     render: function () {

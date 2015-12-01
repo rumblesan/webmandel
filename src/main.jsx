@@ -7,8 +7,8 @@ var React = require('react');
 var App = require('./app.jsx');
 
 var config = {
-    width: 1440,
-    height: 960,
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
     repeats: 255,
     startX1: -2.0,
     startY1: -1.0,
