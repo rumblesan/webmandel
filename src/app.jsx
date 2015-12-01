@@ -10,6 +10,8 @@ var App = React.createClass({
     getInitialState: function () {
         return {
             smoothing: true,
+            width: this.props.config.width,
+            height: this.props.config.height,
             mandelbrot: Mandelbrot.calculate(
                 Mandelbrot.create(
                     this.props.config.width,
@@ -71,8 +73,8 @@ var App = React.createClass({
         this.setState({
             mandelbrot: Mandelbrot.calculate(
                 Mandelbrot.create(
-                    this.props.config.width,
-                    this.props.config.height,
+                    this.state.width,
+                    this.state.height,
                     this.props.config.repeats,
                     this.props.config.startX1,
                     this.props.config.startY1,
@@ -82,6 +84,18 @@ var App = React.createClass({
                 this.state.smoothing
             )
         });
+    },
+    componentDidMount: function() {
+        window.addEventListener('resize', this.handleResize);
+    },
+    componentWillUnmount: function() {
+        window.removeEventListener('resize', this.handleResize);
+    },
+    handleResize: function () {
+        this.setState({
+            width: window.innerWidth,
+            height: window.innerHeight
+        }, this.reset);
     },
     render: function () {
         return (
@@ -94,6 +108,8 @@ var App = React.createClass({
                 </div>
                 <Display
                     config={this.props.config}
+                    width={this.state.width}
+                    height={this.state.height}
                     handleSelect={this.handleMouseSelect}
                     mandelbrot={this.state.mandelbrot}
                 />

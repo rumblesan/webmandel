@@ -92,8 +92,8 @@ var Display = React.createClass({
                 onMouseDown={this.handleMouseDown}
                 onMouseUp={this.handleMouseUp}
                 onMouseOut={this.handleMouseOut}
-                width={this.props.config.width}
-                height={this.props.config.height}
+                width={this.props.width}
+                height={this.props.height}
             ></canvas>
         );
     }
