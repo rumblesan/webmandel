@@ -99,13 +99,30 @@ Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2, smoothing) {
         x2: x2Brot,
         y2: y2Brot
     };
-    /*
-     *var newRatio = (
-     *    (mandelbrot.coords.x2 - mandelbrot.coords.x1) /
-     *    (mandelbrot.coords.y2 - mandelbrot.coords.y1)
-     *);
-     */
     return Mandelbrot.calculate(mandelbrot, smoothing);
+};
+
+Mandelbrot.findCentre = function (mandelbrot) {
+    var coords = mandelbrot.coords;
+    var cX = (coords.x2 + coords.x1) / 2;
+    var cY = (coords.y2 + coords.y1) / 2;
+    return {x: cX, y: cY};
+};
+
+Mandelbrot.resize = function (mandelbrot, newWidth, newHeight) {
+    var c = Mandelbrot.findCentre(mandelbrot);
+
+    var plotWidth = mandelbrot.coords.x2 - mandelbrot.coords.x1;
+    var pxRatio = plotWidth / mandelbrot.width;
+    var newPlotWidth = pxRatio * newWidth;
+    var newPlotHeight = pxRatio * newHeight;
+
+    var newX1 = c.x - (newPlotWidth / 2);
+    var newX2 = c.x + (newPlotWidth / 2);
+    var newY1 = c.y - (newPlotHeight / 2);
+    var newY2 = c.y + (newPlotHeight / 2);
+
+    return Mandelbrot.create(newWidth, newHeight, mandelbrot.repeats, newX1, newY1, newX2, newY2);
 };
 
 module.exports = Mandelbrot;

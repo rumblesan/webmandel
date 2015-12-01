@@ -85,6 +85,18 @@ var App = React.createClass({
             )
         });
     },
+    resize: function () {
+        this.setState({
+            mandelbrot: Mandelbrot.calculate(
+                Mandelbrot.resize(
+                    this.state.mandelbrot,
+                    this.state.width,
+                    this.state.height
+                ),
+                this.state.smoothing
+            )
+        });
+    },
     componentDidMount: function() {
         window.addEventListener('resize', this.handleResize);
     },
@@ -95,7 +107,7 @@ var App = React.createClass({
         this.setState({
             width: document.documentElement.clientWidth,
             height: document.documentElement.clientHeight
-        }, this.reset);
+        }, this.resize);
     },
     render: function () {
         return (
