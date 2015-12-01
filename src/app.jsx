@@ -107,7 +107,7 @@ var App = React.createClass({
                     />
                 </div>
                 <Display
-                    config={this.props.config}
+                    colours={this.props.config.colours}
                     width={this.state.width}
                     height={this.state.height}
                     handleSelect={this.handleMouseSelect}

@@ -73,9 +73,9 @@ var Display = React.createClass({
                     imageData.data[cp+3] = 255;
                 } else {
                     c = Colour.HSVtoRGB(
-                        v + this.props.config.colours.hueOffset,
-                        this.props.config.colours.saturation,
-                        this.props.config.colours.value
+                        v + this.props.colours.hueOffset,
+                        this.props.colours.saturation,
+                        this.props.colours.value
                     );
                     imageData.data[cp]   = c.r;
                     imageData.data[cp+1] = c.g;
