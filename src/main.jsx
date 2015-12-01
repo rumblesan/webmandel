@@ -1,7 +1,5 @@
 /*jslint browser: true */
 
-var domready = require('domready');
-
 var React = require('react');
 
 var App = require('./app.jsx');
@@ -21,12 +19,8 @@ var config = {
     }
 };
 
-domready(function () {
-
-    React.render(
-        <App config={config} />,
-        document.body
-    );
-
-});
+React.render(
+    <App config={config} />,
+    document.body
+);
 
