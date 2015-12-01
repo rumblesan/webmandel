@@ -47,7 +47,7 @@ var Display = React.createClass({
             yPos
         );
     },
-    handleMouseOut: function (event) {
+    handleMouseOut: function () {
         this.setState({
             selecting: false,
             selectionStart: { x: -1, y: -1 }
@@ -60,7 +60,7 @@ var Display = React.createClass({
         var imageData = ctx.createImageData(
             canvas.width, canvas.height
         );
-        var p, c, x, y, v;
+        var p, c, x, y, v, cp;
         for (x = 0; x < this.props.mandelbrot.width; x += 1) {
             for (y = 0; y < this.props.mandelbrot.height; y += 1) {
                 p = y * this.props.mandelbrot.width + x;

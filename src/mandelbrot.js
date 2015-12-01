@@ -99,10 +99,12 @@ Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2, smoothing) {
         x2: x2Brot,
         y2: y2Brot
     };
-    var newRatio = (
-        (mandelbrot.coords.x2 - mandelbrot.coords.x1) /
-        (mandelbrot.coords.y2 - mandelbrot.coords.y1)
-    );
+    /*
+     *var newRatio = (
+     *    (mandelbrot.coords.x2 - mandelbrot.coords.x1) /
+     *    (mandelbrot.coords.y2 - mandelbrot.coords.y1)
+     *);
+     */
     return Mandelbrot.calculate(mandelbrot, smoothing);
 };
 

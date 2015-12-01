@@ -59,14 +59,14 @@ var App = React.createClass({
     },
     handleControls: function (control) {
         switch (control) {
-            case 'smoothing':
-                this.toggleSmoothing();
-                break;
-            case 'reset':
-                this.reset();
-                break;
-            default:
-                console.log('Unknown control');
+        case 'smoothing':
+            this.toggleSmoothing();
+            break;
+        case 'reset':
+            this.reset();
+            break;
+        //default:
+        //    console.log('Unknown control');
         }
     },
     reset: function () {
