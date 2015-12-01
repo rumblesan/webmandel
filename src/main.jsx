@@ -25,7 +25,7 @@ domready(function () {
 
     React.render(
         <App config={config} />,
-        document.getElementById('content')
+        document.body
     );
 
 });
