@@ -93,13 +93,13 @@ Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2, smoothing) {
 
     y2Brot = y1Brot + (Math.abs(x2Brot - x1Brot) / ratio);
 
-    mandelbrot.coords = {
-        x1: x1Brot,
-        y1: y1Brot,
-        x2: x2Brot,
-        y2: y2Brot
-    };
-    return Mandelbrot.calculate(mandelbrot, smoothing);
+    return Mandelbrot.calculate(
+        Mandelbrot.create(
+            mandelbrot.width, mandelbrot.height, mandelbrot.repeats,
+            x1Brot, y1Brot, x2Brot, y2Brot
+        ),
+        smoothing
+    );
 };
 
 Mandelbrot.findCentre = function (mandelbrot) {
