@@ -1,5 +1,6 @@
 
 var React = require('react');
+var _ = require('underscore');
 
 var Controls = require('./ui/controls.jsx');
 var Display = require('./ui/display.jsx');
@@ -85,7 +86,7 @@ var App = React.createClass({
             )
         });
     },
-    resize: function () {
+    resize: _.debounce(function () {
         this.setState({
             mandelbrot: Mandelbrot.calculate(
                 Mandelbrot.resize(
@@ -96,7 +97,7 @@ var App = React.createClass({
                 this.state.smoothing
             )
         });
-    },
+    }, 200),
     componentDidMount: function() {
         window.addEventListener('resize', this.handleResize);
     },
