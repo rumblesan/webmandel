@@ -15,15 +15,15 @@ var App = React.createClass({
             height: this.props.config.height,
             mandelbrot: Mandelbrot.calculate(
                 Mandelbrot.create(
-                    this.props.config.width,
-                    this.props.config.height,
                     this.props.config.repeats,
                     this.props.config.startX1,
                     this.props.config.startY1,
                     this.props.config.startX2,
                     this.props.config.startY2
                 ),
-                true
+                true,
+                this.props.config.width,
+                this.props.config.height
             )
         };
     },
@@ -35,7 +35,9 @@ var App = React.createClass({
                 y1Pos,
                 x2Pos,
                 y2Pos,
-                this.state.smoothing
+                this.state.smoothing,
+                this.state.width,
+                this.state.height
             )
         });
     },
@@ -45,7 +47,9 @@ var App = React.createClass({
                 smoothing: false,
                 mandelbrot: Mandelbrot.calculate(
                     this.state.mandelbrot,
-                    false
+                    false,
+                    this.state.width,
+                    this.state.height
                 )
             });
         } else {
@@ -53,7 +57,9 @@ var App = React.createClass({
                 smoothing: true,
                 mandelbrot: Mandelbrot.calculate(
                     this.state.mandelbrot,
-                    true
+                    true,
+                    this.state.width,
+                    this.state.height
                 )
             });
         }
@@ -74,15 +80,15 @@ var App = React.createClass({
         this.setState({
             mandelbrot: Mandelbrot.calculate(
                 Mandelbrot.create(
-                    this.state.width,
-                    this.state.height,
                     this.props.config.repeats,
                     this.props.config.startX1,
                     this.props.config.startY1,
                     this.props.config.startX2,
                     this.props.config.startY2
                 ),
-                this.state.smoothing
+                this.state.smoothing,
+                this.state.width,
+                this.state.height
             )
         });
     },
@@ -92,9 +98,13 @@ var App = React.createClass({
                 Mandelbrot.resize(
                     this.state.mandelbrot,
                     this.state.width,
+                    this.state.height,
+                    this.state.width,
                     this.state.height
                 ),
-                this.state.smoothing
+                this.state.smoothing,
+                this.state.width,
+                this.state.height
             )
         });
     }, 200),

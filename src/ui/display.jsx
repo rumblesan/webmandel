@@ -61,9 +61,9 @@ var Display = React.createClass({
             canvas.width, canvas.height
         );
         var p, c, x, y, v, cp;
-        for (x = 0; x < this.props.mandelbrot.width; x += 1) {
-            for (y = 0; y < this.props.mandelbrot.height; y += 1) {
-                p = y * this.props.mandelbrot.width + x;
+        for (x = 0; x < canvas.width; x += 1) {
+            for (y = 0; y < canvas.height; y += 1) {
+                p = y * canvas.width + x;
                 cp = p * 4;
                 v = this.props.mandelbrot.values[p];
                 if (v < 0) {
