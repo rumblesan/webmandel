@@ -1,5 +1,6 @@
 
 var Colour = require('../colour');
+var Mandelbrot = require('../mandelbrot');
 
 var React   = require('react');
 
@@ -60,12 +61,17 @@ var Display = React.createClass({
         var imageData = ctx.createImageData(
             canvas.width, canvas.height
         );
+        var render = Mandelbrot.calculate(
+            this.props.mandelbrot,
+            this.props.smoothing,
+            canvas.width, canvas.height
+        );
         var p, c, x, y, v, cp;
         for (x = 0; x < canvas.width; x += 1) {
             for (y = 0; y < canvas.height; y += 1) {
                 p = y * canvas.width + x;
                 cp = p * 4;
-                v = this.props.mandelbrot.values[p];
+                v = render.values[p];
                 if (v < 0) {
                     imageData.data[cp]   = 0;
                     imageData.data[cp+1] = 0;

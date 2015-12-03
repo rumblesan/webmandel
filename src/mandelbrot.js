@@ -94,14 +94,9 @@ Mandelbrot.zoom = function (mandelbrot, x1, y1, x2, y2, smoothing, canvasWidth, 
 
     y2Brot = y1Brot + (Math.abs(x2Brot - x1Brot) / ratio);
 
-    return Mandelbrot.calculate(
-        Mandelbrot.create(
-            mandelbrot.repeats,
-            x1Brot, y1Brot, x2Brot, y2Brot
-        ),
-        smoothing,
-        canvasWidth,
-        canvasHeight
+    return Mandelbrot.create(
+        mandelbrot.repeats,
+        x1Brot, y1Brot, x2Brot, y2Brot
     );
 };
 
