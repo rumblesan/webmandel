@@ -36,6 +36,6 @@ const config = {
 
 ReactDOM.render(
     <App config={config} />,
-    document.body
+  document.getElementById('app')
 );
 
