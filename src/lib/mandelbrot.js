@@ -74,7 +74,7 @@ export const calculateValue = (mandelbrot, xCoord, yCoord, smoothing) => {
   return output;
 };
 
-export const zoom = (mandelbrot, x1, y1, x2, y2, smoothing, canvasWidth, canvasHeight) => {
+export const zoom = (mandelbrot, x1, y1, x2, y2) => {
   const plotX = mandelbrot.coords.x2 - mandelbrot.coords.x1;
   const plotY = mandelbrot.coords.y2 - mandelbrot.coords.y1;
 
