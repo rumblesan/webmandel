@@ -3,7 +3,7 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './src/main.jsx',
+  entry: './src/main.js',
   output: {
     path: './dist',
     filename: './app.js'
@@ -11,7 +11,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /.jsx?$/,
+        test: /.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
@@ -30,6 +30,6 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.html', 'png', 'jpg', 'svg', 'ico']
+    extensions: ['', '.js', '.json', '.html', 'png', 'jpg', 'svg', 'ico']
   }
 };
