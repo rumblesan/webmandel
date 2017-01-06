@@ -1,35 +1,40 @@
 /*jslint browser: true */
 
-var React = require('react');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var App = require('./app.jsx');
+import './index.html';
+import './images/favicon.ico';
+import './style/style.css';
 
-var canvasWidth  = document.documentElement.clientWidth;
-var canvasHeight = document.documentElement.clientHeight;
-var hwRatio = canvasHeight / canvasWidth;
-var plotWidth = 3;
-var centre = {
-    x: -0.5,
-    y: 0
-}
-var plotHeight = plotWidth * hwRatio;
+import App from './app.jsx';
 
-var config = {
-    width: canvasWidth,
-    height: canvasHeight,
-    repeats: 255,
-    startX1: centre.x - (plotWidth / 2),
-    startY1: centre.y - (plotHeight / 2),
-    startX2: centre.x + (plotWidth / 2),
-    startY2: centre.y + (plotHeight / 2),
-    colours: {
-        hueOffset: 0.63,
-        saturation: 0.9,
-        value: 0.8
-    }
+const canvasWidth  = document.documentElement.clientWidth;
+const canvasHeight = document.documentElement.clientHeight;
+const hwRatio = canvasHeight / canvasWidth;
+const plotWidth = 3;
+const centre = {
+  x: -0.5,
+  y: 0
+};
+const plotHeight = plotWidth * hwRatio;
+
+const config = {
+  width: canvasWidth,
+  height: canvasHeight,
+  repeats: 255,
+  startX1: centre.x - (plotWidth / 2),
+  startY1: centre.y - (plotHeight / 2),
+  startX2: centre.x + (plotWidth / 2),
+  startY2: centre.y + (plotHeight / 2),
+  colours: {
+    hueOffset: 0.63,
+    saturation: 0.9,
+    value: 0.8
+  }
 };
 
-React.render(
+ReactDOM.render(
     <App config={config} />,
     document.body
 );

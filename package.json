@@ -1,34 +1,31 @@
 {
   "name": "webmandel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Web based mandelbrot explorer",
   "author": "Guy John",
-  "license": "BSD-3",
+  "license": "BSD-3-Clause",
+  "repository": "rumblesan/webmandel",
   "scripts": {
-    "browserify": "browserify src/main.jsx -o ./dist/app.js",
-    "style": "cat ./style/*.css > ./dist/style.css;",
-    "watch-js": "watchify src/main.jsx -o ./dist/app.js",
-    "watch-style": "nodemon --watch style/* --exec 'npm run style'",
-    "watch": "npm run watch-js & npm run watch-style",
-    "statics": "cp -r ./statics/* ./dist/; cp -r ./html/* ./dist/;",
-    "clean": "rm -rf ./dist/*",
-    "build": "npm run browserify && npm run statics && npm run style",
-    "test": "nodeunit tests"
-  },
-  "devDependencies": {
-    "browserify": "^9.0.6",
-    "nodemon": "^1.3.7",
-    "nodeunit": "^0.9.1",
-    "reactify": "^1.1.1",
-    "watchify": "^3.2.2"
+    "build": "webpack -p",
+    "devbuild": "webpack -d",
+    "serve": "webpack-dev-server -d --content-base dist/ --inline --host 0.0.0.0",
+    "test": "mocha-webpack --webpack-config webpack.config.js \"tests/**/*.js\""
   },
   "dependencies": {
-    "react": "^0.13.3",
-    "underscore": "^1.8.3"
-  },
-  "browserify": {
-    "transform": [
-      "reactify"
-    ]
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "css-loader": "^0.26.1",
+    "file-loader": "^0.9.0",
+    "mocha": "^3.2.0",
+    "mocha-webpack": "^0.7.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "style-loader": "^0.13.1",
+    "underscore": "^1.8.3",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
   }
 }
