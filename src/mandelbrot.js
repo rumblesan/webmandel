@@ -1,60 +1,56 @@
 
-export const create = function (repeats, x1, y1, x2, y2) {
-  var mandelbrot = {
-    repeats: repeats,
-    coords: { x1: x1, y1: y1, x2: x2, y2: y2 }
+export const create = (repeats, x1, y1, x2, y2) => {
+  return {
+    repeats,
+    coords: { x1, y1, x2, y2 }
   };
-
-  return mandelbrot;
 };
 
-export const render = function (mandelbrot, smoothing, canvasWidth, canvasHeight) {
+export const render = (mandelbrot, smoothing, width, height) => {
 
-  var render = {
-    width: canvasWidth,
-    height: canvasHeight,
-    escapeValues: new Float64Array(canvasWidth * canvasHeight),
-    values: new Float64Array(canvasWidth * canvasHeight)
-  };
+  const escapeValues = new Float64Array(width * height);
+  const values = new Float64Array(width * height);
 
-  var highest = 0;
-  var lowest = 1000;
-  var value;
-  var xDistPerPixel  = (mandelbrot.coords.x2 - mandelbrot.coords.x1) / render.width;
-  var yDistPerPixel = (mandelbrot.coords.y2 - mandelbrot.coords.y1) / render.height;
+  let highest = 0;
+  let lowest = 1000;
+  const xDistPerPixel  = (mandelbrot.coords.x2 - mandelbrot.coords.x1) / width;
+  const yDistPerPixel = (mandelbrot.coords.y2 - mandelbrot.coords.y1) / height;
 
-  var x, y, xCoord, yCoord;
-  for (x = 0; x < render.width; x += 1) {
-    for (y = 0; y < render.height; y += 1) {
-      xCoord = mandelbrot.coords.x1 + (x * xDistPerPixel);
-      yCoord = mandelbrot.coords.y1 + (y * yDistPerPixel);
-      value = calculateValue(mandelbrot, xCoord, yCoord, smoothing);
+  for (let x = 0; x < width; x += 1) {
+    for (let y = 0; y < height; y += 1) {
+      const xCoord = mandelbrot.coords.x1 + (x * xDistPerPixel);
+      const yCoord = mandelbrot.coords.y1 + (y * yDistPerPixel);
+      const value = calculateValue(mandelbrot, xCoord, yCoord, smoothing);
       if (value > highest) {
         highest = value;
       }
       if (value > 0 && value < lowest) {
         lowest = value;
       }
-      render.escapeValues[y * render.width + x] = value;
+      escapeValues[y * width + x] = value;
     }
   }
 
   // scaling from 0 to 1
-  var diff = highest - lowest;
-  var i;
-  for (i = 0; i < render.escapeValues.length; i += 1) {
-    render.values[i] = (render.escapeValues[i] - lowest) / diff;
+  const diff = highest - lowest;
+  for (let i = 0; i < escapeValues.length; i += 1) {
+    values[i] = (escapeValues[i] - lowest) / diff;
   }
 
-  return render;
+  return {
+    width,
+    height,
+    escapeValues,
+    values
+  };
 };
 
-export const calculateValue = function (mandelbrot, xCoord, yCoord, smoothing) {
+export const calculateValue = (mandelbrot, xCoord, yCoord, smoothing) => {
 
-  var x = 0;
-  var y = 0;
-  var temp = 0;
-  var iteration;
+  let x = 0;
+  let y = 0;
+  let temp = 0;
+  let iteration;
   for (
     iteration = 0;
     ((x*x + y*y) < 4) && (iteration < mandelbrot.repeats);
@@ -65,7 +61,7 @@ export const calculateValue = function (mandelbrot, xCoord, yCoord, smoothing) {
     x = temp;
   }
 
-  var output;
+  let output;
   if (iteration >= mandelbrot.repeats) {
     output = -1;
   } else {
@@ -78,21 +74,19 @@ export const calculateValue = function (mandelbrot, xCoord, yCoord, smoothing) {
   return output;
 };
 
-export const zoom = function (mandelbrot, x1, y1, x2, y2, smoothing, canvasWidth, canvasHeight) {
-  var x1Brot, y1Brot, x2Brot, y2Brot;
+export const zoom = (mandelbrot, x1, y1, x2, y2, smoothing, canvasWidth, canvasHeight) => {
+  const plotX = mandelbrot.coords.x2 - mandelbrot.coords.x1;
+  const plotY = mandelbrot.coords.y2 - mandelbrot.coords.y1;
 
-  var plotX = mandelbrot.coords.x2 - mandelbrot.coords.x1;
-  var plotY = mandelbrot.coords.y2 - mandelbrot.coords.y1;
+  const ratio = plotX / plotY;
+  const xLength = Math.abs(x2 - x1);
 
-  var ratio = plotX / plotY;
-  var xLength = Math.abs(x2 - x1);
+  const x1Brot = mandelbrot.coords.x1 + (plotX * x1);
+  const y1Brot = mandelbrot.coords.y1 + (plotY * y1);
 
-  x1Brot = mandelbrot.coords.x1 + (plotX * x1);
-  y1Brot = mandelbrot.coords.y1 + (plotY * y1);
+  const x2Brot = x1Brot + (plotX * xLength);
 
-  x2Brot = x1Brot + (plotX * xLength);
-
-  y2Brot = y1Brot + (Math.abs(x2Brot - x1Brot) / ratio);
+  const y2Brot = y1Brot + (Math.abs(x2Brot - x1Brot) / ratio);
 
   return create(
     mandelbrot.repeats,
@@ -100,25 +94,25 @@ export const zoom = function (mandelbrot, x1, y1, x2, y2, smoothing, canvasWidth
   );
 };
 
-export const findCentre = function (mandelbrot) {
-  var coords = mandelbrot.coords;
-  var cX = (coords.x2 + coords.x1) / 2;
-  var cY = (coords.y2 + coords.y1) / 2;
-  return {x: cX, y: cY};
+export const findCentre = ({coords}) => {
+  return {
+    x: (coords.x2 + coords.x1) / 2,
+    y: (coords.y2 + coords.y1) / 2
+  };
 };
 
-export const resize = function (mandelbrot, newWidth, newHeight, canvasWidth, canvasHeight) {
-  var c = findCentre(mandelbrot);
+export const resize = (mandelbrot, newWidth, newHeight, canvasWidth, canvasHeight) => {
+  const c = findCentre(mandelbrot);
 
-  var plotWidth = mandelbrot.coords.x2 - mandelbrot.coords.x1;
-  var pxRatio = plotWidth / canvasWidth;
-  var newPlotWidth = pxRatio * newWidth;
-  var newPlotHeight = pxRatio * newHeight;
+  const plotWidth = mandelbrot.coords.x2 - mandelbrot.coords.x1;
+  const pxRatio = plotWidth / canvasWidth;
+  const newPlotWidth = pxRatio * newWidth;
+  const newPlotHeight = pxRatio * newHeight;
 
-  var newX1 = c.x - (newPlotWidth / 2);
-  var newX2 = c.x + (newPlotWidth / 2);
-  var newY1 = c.y - (newPlotHeight / 2);
-  var newY2 = c.y + (newPlotHeight / 2);
+  const newX1 = c.x - (newPlotWidth / 2);
+  const newX2 = c.x + (newPlotWidth / 2);
+  const newY1 = c.y - (newPlotHeight / 2);
+  const newY2 = c.y + (newPlotHeight / 2);
 
   return create(mandelbrot.repeats, newX1, newY1, newX2, newY2);
 };
