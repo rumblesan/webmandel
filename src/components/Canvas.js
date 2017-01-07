@@ -1,6 +1,8 @@
 
 import React from 'react';
 
+import ZoomBox from './ZoomBox';
+
 import * as Colour from '../lib/colour';
 import * as Mandelbrot from '../lib/mandelbrot';
 
@@ -73,15 +75,22 @@ export default React.createClass({
   },
   render: function () {
     return (
-      <canvas
-        ref={(el) => { this.canvas = el; }}
+      <div
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}
         onMouseUp={this.onMouseUp}
-        onMouseLeave={this.onMouseLeave}
-        width={this.props.width}
-        height={this.props.height}
-        ></canvas>
+        onMouseLeave={this.onMouseLeave} >
+        <canvas
+          ref={(el) => { this.canvas = el; }}
+          width={this.props.width}
+          height={this.props.height}
+          ></canvas>
+        <ZoomBox
+          zoom={this.props.zoom}
+          width={this.props.width}
+          height={this.props.height}
+          />
+      </div>
     );
   }
 });

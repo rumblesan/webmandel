@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
     mandelbrot: state.mandelbrot,
     width: state.width,
     height: state.height,
+    zoom: state.zoom,
     colours: state.colours,
   };
 };
