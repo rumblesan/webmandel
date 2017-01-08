@@ -22,6 +22,7 @@ export default React.createClass({
   },
   onMouseMove: function (event) {
     event.preventDefault();
+    if (!this.props.zoom) return;
     var rect = this.canvas.getBoundingClientRect();
     var xPos = (event.clientX - rect.left) / this.canvas.width;
     var yPos = (event.clientY - rect.top) / this.canvas.height;
@@ -35,6 +36,7 @@ export default React.createClass({
     this.props.finishZoomSelection(xPos, yPos);
   },
   onMouseLeave: function () {
+    if (!this.props.zoom) return;
     this.props.cancelZoom();
   },
   drawCanvas: function () {
