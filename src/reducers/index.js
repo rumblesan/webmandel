@@ -67,17 +67,29 @@ export default (state = defaultState, {type, payload}) => {
     }
     return state;
   case Types.FINISH_ZOOM_SELECTION:
-    if (state.zoom) {
+    if (!state.zoom) {
       return Object.assign({}, state, {
-        mandelbrot: Mandelbrot.zoom(
-          state.mandelbrot,
-          state.zoom.x1, state.zoom.y1,
-          state.zoom.x2, state.zoom.y2
-        ),
         zoom: defaultState.zoom,
       });
     }
-    return state;
+    if (!state.zoom.x2) {
+      state.zoom.x1 -= 0.05;
+      state.zoom.y1 -= 0.05;
+      state.zoom.x2 = state.zoom.x1 + 0.1;
+      state.zoom.y2 = state.zoom.y1 + 0.1;
+    }
+    if (state.zoom.x2 - state.zoom.x1 < 0.1) {
+      state.zoom.x2 = state.zoom.x1 + 0.1;
+      state.zoom.y2 = state.zoom.y1 + 0.1;
+    }
+    return Object.assign({}, state, {
+      mandelbrot: Mandelbrot.zoom(
+        state.mandelbrot,
+        state.zoom.x1, state.zoom.y1,
+        state.zoom.x2, state.zoom.y2
+      ),
+      zoom: defaultState.zoom,
+    });
   case Types.CANCEL_ZOOM:
     return Object.assign({}, state, {
       zoom: defaultState.zoom,
