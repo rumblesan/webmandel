@@ -4,13 +4,15 @@ import React from 'react';
 export default ({smoothing, toggleSmoothing, resetPlot}) => {
   return (
     <div id='controls'>
-      <span className='control-item'>Rumblesan</span>
+      <span className='control-item interactive'>
+        <a href="http://rumblesan.com">Rumblesan</a>
+      </span>
 
-      <span className='control-item' onClick={toggleSmoothing}>
+      <span className='control-item interactive' onClick={toggleSmoothing}>
         Smoothing: {smoothing ? 'On' : 'Off'}
       </span>
 
-      <span className='control-item' onClick={resetPlot}>
+      <span className='control-item interactive' onClick={resetPlot}>
         Reset
       </span>
 

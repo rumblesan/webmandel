@@ -16,12 +16,18 @@ html, body {
     position: absolute;
     z-index: 5;
 }
+a:link, a:visited, a:hover, a:active {
+    color: white;
+}
 #controls {
     font-family: monospace; line-height: 1.4em;
     font-size: 1.2em;
 }
 .control-item {
     padding: 5px 10px;
+}
+.control-item.interactive {
+    cursor: pointer;
 }
 #app {
     width: 100%;
